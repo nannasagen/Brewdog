@@ -1,25 +1,23 @@
 <template>
-  <div> id="app">
+  <div id="app">
     <div style="display: flex; flex-direction: row;">
       
-      <Api :beers="beerList" @beer-selected="selectedBeer"></Api>
-      <!-- <BeerListScreen></BeerListScreen> -->
+      <BeerListScreen :beers="beerList" @beer-selected="selectedBeer"></BeerListScreen>
       <BeerDetailsScreen :beer="theBeer"></BeerDetailsScreen>
       
     </div>
-  <div>{{beerDetailsScreen == null ? 'ingenting' : beerDetailsScreen.id}}</div>
+  <div>{{theBeer == null ? 'ingenting' : theBeer.id}}</div>
   </div>
 </template>
 
 <script>
-import Api from './components/Api.vue'
+import BeerListScreen from './components/BeerListScreen.vue'
 import BeerDetailsScreen from '@/components/BeerDetailsScreen.vue'
 
 export default {
   name: 'App',
   components: {
-    Api,
-    //BeerListScreen,
+    BeerListScreen,
     BeerDetailsScreen,
   },
   data() {
@@ -33,7 +31,6 @@ export default {
     let data = await response.json();
     this.beerList.push(...data);
     console.log(data);
-    return data;
   },
   methods: {
 
