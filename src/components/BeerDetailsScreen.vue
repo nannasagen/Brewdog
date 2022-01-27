@@ -1,31 +1,41 @@
 <template>
   <div id="beerDetailsScreen">
-    <ul v-if="beer !== null">
-      <li>{{ beer.name }}</li>
-      <li>{{ beer.tagline }}</li>
-      <img :src="beer.image_url" />
-      <li>{{ beer.abv }} %</li>
-      <li>{{ beer.description }}</li>
-      <ul>
-        <li>{{ beer.method }} <button @click="buttonPressed()">'${buttonState}'</button></li>
-        <li>{{ beer.brewing_tips }}</li>
-        <li>{{beer.malts}}</li>
-        <li>{{beer.hops}}</li>
+    <div v-if="beer !== null">
+      {{ beer.name }}
+      {{ beer.tagline }}
+      {{ beer.abv }} %
+      {{ beer.description }}
+      {{ beer.method }}
+      <ul v-for="(ingredient,index) in allIngredients" v-bind:key="index">
+        <li>
+            {{ ingredient.name }} 
+          
+            <span v-if="ingredient.isDone">DONE <button  @click="setDone(index, false)">IDLE</button></span>
+            <span v-else>IDLE <button  @click="setDone(index, true)">DONE</button></span>
+        </li>
       </ul>
-    </ul>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "BeerDetailsScreen",
+  name: "BeerDetailsScreen", 
   props: ["beer"],
   methods:{
-    buttonPressed(){
-      
+    setDone(index, value){
+      let ingredient = this.allIngredients[index];
+      ingredient.isDone = value;
+      console.log(ingredient);
     }
+  },
+  computed: {
+    allIngredients() {
+      let list = this.beer.ingredients.malt.concat(this.beer.ingredients.hops);
+      console.log(list);
+      return list;
+    },
   },
 };
 
-// Jeg tok vekk data
 </script>
